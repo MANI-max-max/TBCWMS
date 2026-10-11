@@ -21,15 +21,18 @@ export type PortalMode = 'admin' | 'customer';
 export default function App() {
   // Portal Entry Point state ('customer' or 'admin')
   const [activePortal, setActivePortal] = useState<PortalMode>(() => {
-    // Check URL hash first (e.g. #admin or #customer)
-    if (typeof window !== 'undefined' && window.location.hash) {
-      if (window.location.hash.toLowerCase().includes('admin')) return 'admin';
-      if (window.location.hash.toLowerCase().includes('customer')) return 'customer';
+    // Check URL hash, search, or path (e.g. #admin, ?portal=admin, /admin)
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash.toLowerCase();
+      const search = window.location.search.toLowerCase();
+      const path = window.location.pathname.toLowerCase();
+      if (hash.includes('admin') || search.includes('admin') || path.endsWith('/admin')) {
+        return 'admin';
+      }
+      if (hash.includes('customer') || search.includes('customer')) {
+        return 'customer';
+      }
     }
-    try {
-      const saved = localStorage.getItem('tbc_wms_portal_mode');
-      if (saved === 'admin' || saved === 'customer') return saved;
-    } catch {}
     return 'customer'; // Default clean customer storefront
   });
 
@@ -63,18 +66,27 @@ export default function App() {
     return false; // Defaults to unauthenticated so clicking Submit 3 Proofs prompts login/signup
   });
 
-  // Admin Authentication Session
-  const [adminUser, setAdminUser] = useState<UserSession>(() => {
+  // Admin Authentication Session (No default demo account - admin must sign up or log in)
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState<boolean>(() => {
     try {
       const saved = localStorage.getItem('tbc_wms_admin_session');
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        return Boolean(parsed && parsed.email && parsed.type === 'admin');
+      }
     } catch {}
-    return {
-      type: 'admin',
-      name: 'Executive Admin',
-      email: 'admin@tbcwms.com',
-      adminRole: 'Executive Admin'
-    };
+    return false;
+  });
+
+  const [adminUser, setAdminUser] = useState<UserSession | null>(() => {
+    try {
+      const saved = localStorage.getItem('tbc_wms_admin_session');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed && parsed.email && parsed.type === 'admin') return parsed;
+      }
+    } catch {}
+    return null;
   });
 
   // Color Theme Customization state (default: Indigo with crisp white background)
@@ -117,28 +129,36 @@ export default function App() {
       setProducts(latestProducts);
     });
 
-    // Listen to hash changes in URL (e.g. typing #admin or #customer)
+    // Listen to hash and popstate changes in URL (e.g. typing #admin or navigating)
     const handleHashChange = () => {
-      if (window.location.hash.toLowerCase().includes('admin')) {
+      const hash = window.location.hash.toLowerCase();
+      const search = window.location.search.toLowerCase();
+      const path = window.location.pathname.toLowerCase();
+      if (hash.includes('admin') || search.includes('admin') || path.endsWith('/admin')) {
         setActivePortal('admin');
-      } else if (window.location.hash.toLowerCase().includes('customer')) {
+      } else {
         setActivePortal('customer');
       }
     };
     window.addEventListener('hashchange', handleHashChange);
+    window.addEventListener('popstate', handleHashChange);
 
     return () => {
       unsubscribe();
       window.removeEventListener('hashchange', handleHashChange);
+      window.removeEventListener('popstate', handleHashChange);
     };
   }, []);
 
-  // Sync portal mode to localStorage & hash
+  // Sync portal mode to hash
   const handleSwitchPortal = (mode: PortalMode) => {
     setActivePortal(mode);
     try {
-      localStorage.setItem('tbc_wms_portal_mode', mode);
-      window.location.hash = mode;
+      if (mode === 'admin') {
+        window.location.hash = 'admin';
+      } else {
+        window.location.hash = '';
+      }
     } catch {}
   };
 
@@ -169,19 +189,19 @@ export default function App() {
     );
   };
 
-  // Customer Login / Signup Handlers
+  // Customer Login / Signup Handlers (Clean user data - no demo fallbacks)
   const handleCustomerLoginSuccess = (session: UserSession) => {
     setCustomerSession({
       name: session.name,
-      phone: session.phone || '9876543210',
-      email: session.email || `${session.name.toLowerCase().replace(/\s+/g, '')}@example.com`
+      phone: session.phone || '',
+      email: session.email || ''
     });
     setIsCustomerLoggedIn(true);
     try {
       localStorage.setItem('tbc_wms_customer_session', JSON.stringify({
         name: session.name,
-        phone: session.phone || '9876543210',
-        email: session.email
+        phone: session.phone || '',
+        email: session.email || ''
       }));
     } catch {}
     setIsCustomerLoginModalOpen(false);
@@ -201,9 +221,10 @@ export default function App() {
     addToast('info', 'Logged Out', 'Signed out of customer account.');
   };
 
-  // Admin Login Handlers
+  // Admin Login Handlers (Protected access)
   const handleAdminLoginSuccess = (session: UserSession) => {
     setAdminUser(session);
+    setIsAdminLoggedIn(true);
     try {
       localStorage.setItem('tbc_wms_admin_session', JSON.stringify(session));
     } catch {}
@@ -213,17 +234,13 @@ export default function App() {
   };
 
   const handleAdminLogout = () => {
-    setAdminUser({
-      type: 'admin',
-      name: 'Logged Out',
-      email: '',
-      adminRole: 'Executive Admin'
-    });
+    setIsAdminLoggedIn(false);
+    setAdminUser(null);
     try {
       localStorage.removeItem('tbc_wms_admin_session');
     } catch {}
     handleSwitchPortal('customer');
-    addToast('info', 'Admin Logged Out', 'Switched to Customer storefront.');
+    addToast('info', 'Admin Logged Out', 'Signed out of administrator console.');
   };
 
   // Product Actions (Real-Time Synchronized across all devices)
@@ -305,7 +322,7 @@ export default function App() {
   };
 
   const handleConfirmPayout = (claimId: string, utrRef: string) => {
-    storage.recordPayout(claimId, utrRef, adminUser.name);
+    storage.recordPayout(claimId, utrRef, adminUser ? adminUser.name : 'Authorized Admin');
     setClaims(storage.getClaims());
     addToast(
       'success',
@@ -414,31 +431,41 @@ export default function App() {
       {/* PORTAL ROUTER: Completely Separated Customer & Admin Portals              */}
       {/* ========================================================================= */}
       {activePortal === 'admin' ? (
-        <AdminPortal
-          products={products}
-          claims={claims}
-          currentUser={adminUser}
-          currentTheme={currentTheme}
-          themeConfig={themeConfig}
-          language={language}
-          setLanguage={setLanguage}
-          onSelectTheme={handleSelectTheme}
-          onSwitchToCustomer={() => handleSwitchPortal('customer')}
-          onOpenCustomerLogin={() => setIsCustomerLoginModalOpen(true)}
-          onOpenAdminLogin={() => setIsAdminLoginModalOpen(true)}
-          onLogout={handleAdminLogout}
-          onSaveProduct={handleSaveProduct}
-          onDeleteProduct={handleDeleteProduct}
-          onToggleProductStatus={handleToggleProductStatus}
-          onApproveClaim={handleApproveClaim}
-          onRejectClaim={handleRejectClaim}
-          onConfirmPayout={handleConfirmPayout}
-          onCleanAllData={handleCleanAllData}
-          onResetDemoData={handleResetDemoData}
-          onExportCsv={handleExportCsv}
-          onShowToast={addToast}
-          onOpenLightbox={handleOpenLightbox}
-        />
+        isAdminLoggedIn && adminUser ? (
+          <AdminPortal
+            products={products}
+            claims={claims}
+            currentUser={adminUser}
+            currentTheme={currentTheme}
+            themeConfig={themeConfig}
+            language={language}
+            setLanguage={setLanguage}
+            onSelectTheme={handleSelectTheme}
+            onSwitchToCustomer={() => handleSwitchPortal('customer')}
+            onOpenCustomerLogin={() => setIsCustomerLoginModalOpen(true)}
+            onOpenAdminLogin={() => setIsAdminLoginModalOpen(true)}
+            onLogout={handleAdminLogout}
+            onSaveProduct={handleSaveProduct}
+            onDeleteProduct={handleDeleteProduct}
+            onToggleProductStatus={handleToggleProductStatus}
+            onApproveClaim={handleApproveClaim}
+            onRejectClaim={handleRejectClaim}
+            onConfirmPayout={handleConfirmPayout}
+            onCleanAllData={handleCleanAllData}
+            onResetDemoData={handleResetDemoData}
+            onExportCsv={handleExportCsv}
+            onShowToast={addToast}
+            onOpenLightbox={handleOpenLightbox}
+          />
+        ) : (
+          <AdminLoginModal
+            isOpen={true}
+            isFullScreen={true}
+            onBackToCustomer={() => handleSwitchPortal('customer')}
+            onLoginSuccess={handleAdminLoginSuccess}
+            lang={language}
+          />
+        )
       ) : (
         <CustomerPortal
           products={products}

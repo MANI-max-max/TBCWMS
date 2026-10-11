@@ -75,22 +75,46 @@ export const LoginModal: React.FC<LoginModalProps> = ({
       return;
     }
 
+    // Retrieve any saved profile for this phone
+    let registeredName = custName.trim();
+    let registeredEmail = custEmail.trim();
+
+    try {
+      const savedUsersRaw = localStorage.getItem('wms_registered_customers_v1');
+      const savedUsers: any[] = savedUsersRaw ? JSON.parse(savedUsersRaw) : [];
+
+      if (mode === 'signup') {
+        const existingIdx = savedUsers.findIndex((u) => u.phone === custPhone.trim());
+        const newUser = {
+          name: registeredName,
+          phone: custPhone.trim(),
+          email: registeredEmail,
+          password: custPassword
+        };
+        if (existingIdx !== -1) {
+          savedUsers[existingIdx] = newUser;
+        } else {
+          savedUsers.push(newUser);
+        }
+        localStorage.setItem('wms_registered_customers_v1', JSON.stringify(savedUsers));
+      } else {
+        // Mode is login: check if name is saved
+        const found = savedUsers.find((u) => u.phone === custPhone.trim());
+        if (found) {
+          registeredName = found.name;
+          registeredEmail = found.email;
+        }
+      }
+    } catch {}
+
     const session: UserSession = {
       type: 'customer',
-      name: custName.trim() || 'Rahul Roy',
+      name: registeredName || `User-${custPhone.trim().slice(-4)}`,
       phone: custPhone.trim(),
-      email: custEmail.trim() || `${custPhone.trim()}@customer.com`
+      email: registeredEmail || `${custPhone.trim()}@user.com`
     };
 
     onLoginSuccess(session);
-  };
-
-  const handleDemoCustomer = () => {
-    setCustName('Rahul Roy');
-    setCustPhone('9876543210');
-    setCustEmail('rahul.roy@example.com');
-    setCustPassword('customer123');
-    setErrorMessage('');
   };
 
   return (
@@ -181,13 +205,6 @@ export const LoginModal: React.FC<LoginModalProps> = ({
                   ? (lang === 'bn' ? 'আপনার মোবাইল দিয়ে লগইন করুন' : 'Sign in to access your claims')
                   : (lang === 'bn' ? 'নতুন কাস্টমার প্রোফাইল তৈরি করুন' : 'Create your free customer account')}
               </span>
-              <button
-                type="button"
-                onClick={handleDemoCustomer}
-                className="text-indigo-600 hover:text-indigo-800 font-semibold flex items-center gap-1 cursor-pointer"
-              >
-                <Sparkles className="w-3 h-3" /> Auto-Fill Demo
-              </button>
             </div>
 
             {/* Customer Name (Sign Up only) */}

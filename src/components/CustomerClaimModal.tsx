@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { X, CheckCircle2, IndianRupee } from 'lucide-react';
 import { WmsProduct, WmsClaim } from '../types/wms';
-import { DEMO_PROOFS } from '../services/storage';
 
 interface CustomerClaimModalProps {
   isOpen: boolean;
@@ -44,15 +43,6 @@ export const CustomerClaimModal: React.FC<CustomerClaimModalProps> = ({
       };
       reader.readAsDataURL(file);
     }
-  };
-
-  const handleQuickFillDemo = () => {
-    setSpecialCode(product.specialCode);
-    setUpiId(`${customer.name.toLowerCase().replace(/\s+/g, '')}@okaxis`);
-    setOrderProof(DEMO_PROOFS.order);
-    setPaymentProof(DEMO_PROOFS.payment);
-    setRatingProof(DEMO_PROOFS.rating);
-    onShowToast('info', 'Demo Proofs Loaded', 'Prefilled valid sample screenshots and matching verification code.');
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -153,13 +143,6 @@ export const CustomerClaimModal: React.FC<CustomerClaimModalProps> = ({
                 </p>
               </div>
             </div>
-            <button
-              type="button"
-              onClick={handleQuickFillDemo}
-              className="text-[11px] font-semibold text-indigo-700 hover:text-indigo-900 bg-white hover:bg-indigo-50 px-3 py-1.5 rounded-xl border border-indigo-200 shadow-sm transition-all"
-            >
-              ⚡ Fast Demo Autofill
-            </button>
           </div>
 
           {/* Verification Code Input */}

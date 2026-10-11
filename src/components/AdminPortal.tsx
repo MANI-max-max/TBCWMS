@@ -203,6 +203,27 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('ALL');
   const [platformFilter, setPlatformFilter] = useState<string>('ALL');
+  const [copiedAdminLink, setCopiedAdminLink] = useState(false);
+
+  const handleCopyAdminLink = () => {
+    const adminUrl = typeof window !== 'undefined'
+      ? `${window.location.origin}${window.location.pathname}#admin`
+      : 'https://.../#admin';
+    try {
+      navigator.clipboard.writeText(adminUrl);
+      setCopiedAdminLink(true);
+      setTimeout(() => setCopiedAdminLink(false), 2500);
+      onShowToast(
+        'success',
+        language === 'bn' ? 'অ্যাডমিন লিংক কপি হয়েছে' : 'Admin Link Copied',
+        language === 'bn'
+          ? 'এই গোপন লিংকটি কাস্টমার পোর্টালে কখনো প্রদর্শিত হবে না। এটি বুকমার্ক করে রাখুন।'
+          : 'Secret admin URL copied! Hidden from customer portal and login forms. Keep it bookmarked.'
+      );
+    } catch {
+      onShowToast('info', 'Admin Secret Link', adminUrl);
+    }
+  };
 
   // Stats calculation
   const stats = useMemo(() => {
@@ -512,6 +533,40 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
         <div className="p-4 border-t border-slate-100 space-y-3">
           <PWAInstallButton language={language} variant="nav" className="w-full justify-center py-2" />
 
+          {/* Secret Admin Link Card (Private Access) */}
+          <div className="p-3 rounded-2xl bg-slate-900 text-white space-y-2 border border-slate-800">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-wider flex items-center gap-1">
+                <ShieldCheck className="w-3 h-3 text-indigo-400" />
+                {language === 'bn' ? 'গোপন অ্যাডমিন লিংক' : 'Private Admin Link'}
+              </span>
+              <span className="text-[9px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-mono">
+                Hidden
+              </span>
+            </div>
+            <p className="text-[10px] text-slate-400 leading-tight">
+              {language === 'bn'
+                ? 'এই লিংকটি কাস্টমার পোর্টাল বা লগইন ফর্মে দেখা যায় না।'
+                : 'Hidden from customer storefront and login form.'}
+            </p>
+            <button
+              onClick={handleCopyAdminLink}
+              className="w-full py-1.5 px-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-[11px] font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+            >
+              {copiedAdminLink ? (
+                <>
+                  <Check className="w-3.5 h-3.5 text-emerald-300" />
+                  <span>{language === 'bn' ? 'কপি হয়েছে!' : 'Copied!'}</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="w-3.5 h-3.5" />
+                  <span>{language === 'bn' ? 'অ্যাডমিন লিংক কপি করুন' : 'Copy Admin Link (#admin)'}</span>
+                </>
+              )}
+            </button>
+          </div>
+
           {/* Switch to Customer Portal Button */}
           <button
             onClick={onSwitchToCustomer}
@@ -676,6 +731,46 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
           {/* ========================================================================= */}
           {activeSection === 'overview' && (
             <div className="space-y-6">
+              {/* Dedicated Secret Admin Link Banner */}
+              <div className="p-4 rounded-3xl bg-slate-900 text-white border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">
+                <div className="flex items-start sm:items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-indigo-600/30 border border-indigo-400/30 flex items-center justify-center shrink-0">
+                    <ShieldCheck className="w-5 h-5 text-indigo-400" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h4 className="text-sm font-bold text-white">
+                        {language === 'bn' ? 'গোপন অ্যাডমিন লিংক (প্রাইভেট লিঙ্ক)' : 'Private Admin Access Link'}
+                      </h4>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                        {language === 'bn' ? 'কাস্টমারদের কাছে গোপন' : 'Hidden from Customers'}
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-400 mt-0.5">
+                      {language === 'bn'
+                        ? 'এই লিংকটি কাস্টমার পোর্টাল বা লগইন ফর্মে দেখা যায় না। অ্যাডমিন সাইনআপ/লগইন করে ড্যাশবোর্ড অ্যাক্সেস করতে পারেন।'
+                        : 'This URL is not shown anywhere on customer portal or login forms. Authorized admins sign up/login to access.'}
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={handleCopyAdminLink}
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-xs transition-all shrink-0 cursor-pointer"
+                >
+                  {copiedAdminLink ? (
+                    <>
+                      <Check className="w-4 h-4 text-emerald-300" />
+                      <span>{language === 'bn' ? 'লিংক কপি হয়েছে!' : 'Link Copied!'}</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-4 h-4" />
+                      <span>{language === 'bn' ? 'অ্যাডমিন লিংক কপি করুন' : 'Copy Secret Admin Link'}</span>
+                    </>
+                  )}
+                </button>
+              </div>
+
               {/* Executive KPI Stats Cards */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 {/* Total Claims */}

@@ -869,10 +869,6 @@ export const CustomerPortal: React.FC<CustomerPortalProps> = ({
             <span>✓ Verified Purchases</span>
             <span>•</span>
             <span>⚡ Instant UPI Refunds</span>
-            <span>•</span>
-            <a href="#admin" className="text-slate-300 hover:text-slate-500 transition-colors" title="Administrative Access">
-              Portal
-            </a>
           </div>
         </div>
       </footer>

@@ -12,7 +12,7 @@
       "specialCode": "AMZ-ANC-99",
       "purchaseUrl": "https://www.amazon.in",
       "totalSlots": 50,
-      "claimedSlots": 32,
+      "claimedSlots": 0,
       "status": "active",
       "instructions": [
         "Search product on Amazon using our direct link",
@@ -34,7 +34,7 @@
       "specialCode": "FLP-BAND-44",
       "purchaseUrl": "https://www.flipkart.com",
       "totalSlots": 40,
-      "claimedSlots": 28,
+      "claimedSlots": 0,
       "status": "active",
       "instructions": [
         "Search on Flipkart store",
@@ -55,7 +55,7 @@
       "specialCode": "BLK-COFF-12",
       "purchaseUrl": "https://blinkit.com",
       "totalSlots": 60,
-      "claimedSlots": 45,
+      "claimedSlots": 0,
       "status": "active",
       "instructions": [
         "Order via Blinkit 10-minute delivery",
@@ -75,7 +75,7 @@
       "specialCode": "AMZ-MOU-88",
       "purchaseUrl": "https://www.amazon.in",
       "totalSlots": 35,
-      "claimedSlots": 19,
+      "claimedSlots": 0,
       "status": "active",
       "instructions": [
         "Buy through direct link",
@@ -84,65 +84,7 @@
       "createdAt": "2026-09-23"
     }
   ],
-  "claims": [
-    {
-      "id": "CLM-2026-8801",
-      "productId": "PROD-101",
-      "productTitle": "Noise-Cancelling Wireless Headphones Pro",
-      "platform": "Amazon",
-      "cashbackAmount": 2499,
-      "systemCode": "AMZ-ANC-99",
-      "submittedCode": "AMZ-ANC-99",
-      "isCodeMatched": true,
-      "customerName": "Aritra Sen",
-      "customerPhone": "9830123456",
-      "customerEmail": "aritra.sen@example.com",
-      "refundUpi": "aritra@okaxis",
-      "orderScreenshot": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"600\" height=\"800\" viewBox=\"0 0 600 800\" fill=\"%230f172a\"><rect width=\"100%\" height=\"100%\" fill=\"%230f172a\"/><rect x=\"40\" y=\"40\" width=\"520\" height=\"720\" rx=\"16\" fill=\"%231e293b\" stroke=\"%23334155\" stroke-width=\"2\"/><text x=\"70\" y=\"100\" fill=\"%2338bdf8\" font-family=\"sans-serif\" font-weight=\"bold\" font-size=\"22\">ORDER CONFIRMATION</text><text x=\"70\" y=\"140\" fill=\"%2394a3b8\" font-family=\"sans-serif\" font-size=\"14\">Order ID: %23402-9812491-18239</text><text x=\"70\" y=\"170\" fill=\"%23e2e8f0\" font-family=\"sans-serif\" font-size=\"16\">Status: Delivered Successfully</text><line x1=\"70\" y1=\"200\" x2=\"530\" y2=\"200\" stroke=\"%23475569\" stroke-width=\"1\"/><text x=\"70\" y=\"240\" fill=\"%23cbd5e1\" font-family=\"sans-serif\" font-size=\"14\">Delivery Address: Bangalore 560034</text><text x=\"70\" y=\"280\" fill=\"%2310b981\" font-family=\"sans-serif\" font-weight=\"bold\" font-size=\"18\">Total Paid: INR 1,499.00</text></svg>",
-      "paymentScreenshot": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"600\" height=\"800\" viewBox=\"0 0 600 800\" fill=\"%23064e3b\"><rect width=\"100%\" height=\"100%\" fill=\"%23064e3b\"/><rect x=\"40\" y=\"40\" width=\"520\" height=\"720\" rx=\"16\" fill=\"%23065f46\" stroke=\"%23047857\" stroke-width=\"2\"/><circle cx=\"300\" cy=\"180\" r=\"50\" fill=\"%2310b981\"/><text x=\"300\" y=\"270\" text-anchor=\"middle\" fill=\"%23ffffff\" font-family=\"sans-serif\" font-weight=\"bold\" font-size=\"24\">UPI PAYMENT SUCCESSFUL</text><text x=\"300\" y=\"320\" text-anchor=\"middle\" fill=\"%23a7f3d0\" font-family=\"sans-serif\" font-weight=\"bold\" font-size=\"32\">INR 1,499.00</text></svg>",
-      "ratingScreenshot": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"600\" height=\"800\" viewBox=\"0 0 600 800\" fill=\"%23451a03\"><rect width=\"100%\" height=\"100%\" fill=\"%23451a03\"/><rect x=\"40\" y=\"40\" width=\"520\" height=\"720\" rx=\"16\" fill=\"%2378350f\" stroke=\"%23b45309\" stroke-width=\"2\"/><text x=\"70\" y=\"110\" fill=\"%23fde68a\" font-family=\"sans-serif\" font-weight=\"bold\" font-size=\"22\">5-STAR RATING &amp; REVIEW</text><text x=\"70\" y=\"160\" fill=\"%23fbbf24\" font-family=\"sans-serif\" font-size=\"28\">★★★★★</text></svg>",
-      "status": "Pending",
-      "submittedAt": "2026-09-25 11:20:00",
-      "auditLogs": [
-        {
-          "id": "log-1",
-          "timestamp": "2026-09-25 11:20:00",
-          "action": "Claim Submitted",
-          "note": "Customer submitted all 3 proofs with valid code match.",
-          "performedBy": "Aritra Sen"
-        }
-      ]
-    },
-    {
-      "id": "CLM-2026-8802",
-      "productId": "PROD-102",
-      "productTitle": "Smart AMOLED Fitness Tracker Watch v4",
-      "platform": "Flipkart",
-      "cashbackAmount": 1500,
-      "systemCode": "FLP-BAND-44",
-      "submittedCode": "FLP-BAND-44",
-      "isCodeMatched": true,
-      "customerName": "Priya Sharma",
-      "customerPhone": "9871122334",
-      "customerEmail": "priya.sharma@example.com",
-      "refundUpi": "priya@okhdfcbank",
-      "orderScreenshot": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"600\" height=\"800\" viewBox=\"0 0 600 800\" fill=\"%230f172a\"><rect width=\"100%\" height=\"100%\" fill=\"%230f172a\"/><rect x=\"40\" y=\"40\" width=\"520\" height=\"720\" rx=\"16\" fill=\"%231e293b\" stroke=\"%23334155\" stroke-width=\"2\"/><text x=\"70\" y=\"100\" fill=\"%2338bdf8\" font-family=\"sans-serif\" font-weight=\"bold\" font-size=\"22\">ORDER CONFIRMATION</text><text x=\"70\" y=\"140\" fill=\"%2394a3b8\" font-family=\"sans-serif\" font-size=\"14\">Order ID: %23402-9812491-18239</text><text x=\"70\" y=\"170\" fill=\"%23e2e8f0\" font-family=\"sans-serif\" font-size=\"16\">Status: Delivered Successfully</text><line x1=\"70\" y1=\"200\" x2=\"530\" y2=\"200\" stroke=\"%23475569\" stroke-width=\"1\"/><text x=\"70\" y=\"240\" fill=\"%23cbd5e1\" font-family=\"sans-serif\" font-size=\"14\">Delivery Address: Bangalore 560034</text><text x=\"70\" y=\"280\" fill=\"%2310b981\" font-family=\"sans-serif\" font-weight=\"bold\" font-size=\"18\">Total Paid: INR 1,499.00</text></svg>",
-      "paymentScreenshot": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"600\" height=\"800\" viewBox=\"0 0 600 800\" fill=\"%23064e3b\"><rect width=\"100%\" height=\"100%\" fill=\"%23064e3b\"/><rect x=\"40\" y=\"40\" width=\"520\" height=\"720\" rx=\"16\" fill=\"%23065f46\" stroke=\"%23047857\" stroke-width=\"2\"/><circle cx=\"300\" cy=\"180\" r=\"50\" fill=\"%2310b981\"/><text x=\"300\" y=\"270\" text-anchor=\"middle\" fill=\"%23ffffff\" font-family=\"sans-serif\" font-weight=\"bold\" font-size=\"24\">UPI PAYMENT SUCCESSFUL</text><text x=\"300\" y=\"320\" text-anchor=\"middle\" fill=\"%23a7f3d0\" font-family=\"sans-serif\" font-weight=\"bold\" font-size=\"32\">INR 1,499.00</text></svg>",
-      "ratingScreenshot": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"600\" height=\"800\" viewBox=\"0 0 600 800\" fill=\"%23451a03\"><rect width=\"100%\" height=\"100%\" fill=\"%23451a03\"/><rect x=\"40\" y=\"40\" width=\"520\" height=\"720\" rx=\"16\" fill=\"%2378350f\" stroke=\"%23b45309\" stroke-width=\"2\"/><text x=\"70\" y=\"110\" fill=\"%23fde68a\" font-family=\"sans-serif\" font-weight=\"bold\" font-size=\"22\">5-STAR RATING &amp; REVIEW</text><text x=\"70\" y=\"160\" fill=\"%23fbbf24\" font-family=\"sans-serif\" font-size=\"28\">★★★★★</text></svg>",
-      "status": "Paid",
-      "payoutRefNo": "UTR-940219482910",
-      "paidAt": "2026-09-25 14:10:00",
-      "submittedAt": "2026-09-24 16:45:00",
-      "auditLogs": [
-        {
-          "id": "log-2",
-          "timestamp": "2026-09-24 16:45:00",
-          "action": "Claim Submitted",
-          "performedBy": "Priya Sharma"
-        }
-      ]
-    }
-  ],
+  "claims": [],
   "deletedProductIds": [],
-  "updatedAt": 1791708543503
+  "updatedAt": 1791708600000
 }

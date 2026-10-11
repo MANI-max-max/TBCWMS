@@ -32,7 +32,7 @@ export const INITIAL_PRODUCTS: WmsProduct[] = [
     specialCode: 'AMZ-ANC-99',
     purchaseUrl: 'https://www.amazon.in',
     totalSlots: 50,
-    claimedSlots: 32,
+    claimedSlots: 0,
     status: 'active',
     instructions: [
       'Search product on Amazon using our direct link',
@@ -54,7 +54,7 @@ export const INITIAL_PRODUCTS: WmsProduct[] = [
     specialCode: 'FLP-BAND-44',
     purchaseUrl: 'https://www.flipkart.com',
     totalSlots: 40,
-    claimedSlots: 26,
+    claimedSlots: 0,
     status: 'active',
     instructions: [
       'Buy only via Flipkart verified seller link',
@@ -76,7 +76,7 @@ export const INITIAL_PRODUCTS: WmsProduct[] = [
     specialCode: 'BLK-COFF-12',
     purchaseUrl: 'https://www.blinkit.com',
     totalSlots: 30,
-    claimedSlots: 18,
+    claimedSlots: 0,
     status: 'active',
     instructions: [
       'Fast 10-minute Blinkit instant delivery order',
@@ -97,7 +97,7 @@ export const INITIAL_PRODUCTS: WmsProduct[] = [
     specialCode: 'AMZ-MOU-88',
     purchaseUrl: 'https://www.amazon.in',
     totalSlots: 25,
-    claimedSlots: 9,
+    claimedSlots: 0,
     status: 'active',
     instructions: [
       'Verify special code AMZ-MOU-88 during claim submission',
@@ -108,149 +108,7 @@ export const INITIAL_PRODUCTS: WmsProduct[] = [
   }
 ];
 
-export const INITIAL_CLAIMS: WmsClaim[] = [
-  {
-    id: 'CLM-2026-8801',
-    productId: 'PROD-101',
-    productTitle: 'Noise-Cancelling Wireless Headphones Pro',
-    platform: 'Amazon',
-    cashbackAmount: 2499,
-    systemCode: 'AMZ-ANC-99',
-    submittedCode: 'AMZ-ANC-99',
-    isCodeMatched: true,
-    customerName: 'Aritra Sen',
-    customerPhone: '9830123456',
-    customerEmail: 'aritra.sen@example.com',
-    refundUpi: 'aritra@okaxis',
-    orderScreenshot: DEMO_PROOFS.order,
-    paymentScreenshot: DEMO_PROOFS.payment,
-    ratingScreenshot: DEMO_PROOFS.rating,
-    status: 'Pending',
-    submittedAt: '2026-09-25 11:20:00',
-    auditLogs: [
-      {
-        id: 'log-1',
-        timestamp: '2026-09-25 11:20:00',
-        action: 'Claim Submitted',
-        note: 'Customer submitted all 3 proofs with valid code match.',
-        performedBy: 'Aritra Sen'
-      }
-    ]
-  },
-  {
-    id: 'CLM-2026-8802',
-    productId: 'PROD-102',
-    productTitle: 'Smart AMOLED Fitness Tracker Watch v4',
-    platform: 'Flipkart',
-    cashbackAmount: 1500,
-    systemCode: 'FLP-BAND-44',
-    submittedCode: 'FLP-BAND-44',
-    isCodeMatched: true,
-    customerName: 'Priya Sharma',
-    customerPhone: '9871122334',
-    customerEmail: 'priya.sharma@example.com',
-    refundUpi: 'priya@okhdfcbank',
-    orderScreenshot: DEMO_PROOFS.order,
-    paymentScreenshot: DEMO_PROOFS.payment,
-    ratingScreenshot: DEMO_PROOFS.rating,
-    status: 'Paid',
-    payoutRefNo: 'UTR-940219482910',
-    paidAt: '2026-09-25 14:10:00',
-    submittedAt: '2026-09-24 16:45:00',
-    auditLogs: [
-      {
-        id: 'log-2',
-        timestamp: '2026-09-24 16:45:00',
-        action: 'Claim Submitted',
-        performedBy: 'Priya Sharma'
-      },
-      {
-        id: 'log-3',
-        timestamp: '2026-09-25 10:15:00',
-        action: 'Claim Approved',
-        note: 'Proofs verified and rating confirmed on Flipkart.',
-        performedBy: 'Executive Admin'
-      },
-      {
-        id: 'log-4',
-        timestamp: '2026-09-25 14:10:00',
-        action: 'Payout Disbursed',
-        note: 'UTR: UTR-940219482910 credited to priya@okhdfcbank',
-        performedBy: 'Accounts Finance'
-      }
-    ]
-  },
-  {
-    id: 'CLM-2026-8803',
-    productId: 'PROD-103',
-    productTitle: 'Organic Arabica Dark Roast Coffee Beans 500g',
-    platform: 'Blinkit',
-    cashbackAmount: 650,
-    systemCode: 'BLK-COFF-12',
-    submittedCode: 'BLK-COFF-12',
-    isCodeMatched: true,
-    customerName: 'Rahul Verma',
-    customerPhone: '9123456780',
-    customerEmail: 'rahul.v@example.com',
-    refundUpi: 'rahul@paytm',
-    orderScreenshot: DEMO_PROOFS.order,
-    paymentScreenshot: DEMO_PROOFS.payment,
-    ratingScreenshot: DEMO_PROOFS.rating,
-    status: 'Approved',
-    submittedAt: '2026-09-25 09:12:00',
-    auditLogs: [
-      {
-        id: 'log-5',
-        timestamp: '2026-09-25 09:12:00',
-        action: 'Claim Submitted',
-        performedBy: 'Rahul Verma'
-      },
-      {
-        id: 'log-6',
-        timestamp: '2026-09-25 13:00:00',
-        action: 'Claim Approved',
-        note: 'Queued for next banking batch payout.',
-        performedBy: 'Executive Admin'
-      }
-    ]
-  },
-  {
-    id: 'CLM-2026-8804',
-    productId: 'PROD-104',
-    productTitle: 'Ergonomic Precision Wireless Gaming Mouse',
-    platform: 'Amazon',
-    cashbackAmount: 1000,
-    systemCode: 'AMZ-MOU-88',
-    submittedCode: 'AMZ-WRONG-CODE',
-    isCodeMatched: false,
-    customerName: 'Tanmoy Das',
-    customerPhone: '9840192837',
-    customerEmail: 'tanmoy.das@example.com',
-    refundUpi: 'tanmoy@ybl',
-    orderScreenshot: DEMO_PROOFS.order,
-    paymentScreenshot: DEMO_PROOFS.payment,
-    ratingScreenshot: DEMO_PROOFS.rating,
-    status: 'Rejected',
-    rejectionReason: 'Invalid Special Code entered (AMZ-WRONG-CODE). Please resubmit with the correct code from product card.',
-    submittedAt: '2026-09-24 18:30:00',
-    auditLogs: [
-      {
-        id: 'log-7',
-        timestamp: '2026-09-24 18:30:00',
-        action: 'Claim Submitted',
-        note: 'Special code mismatch flagged by system.',
-        performedBy: 'Tanmoy Das'
-      },
-      {
-        id: 'log-8',
-        timestamp: '2026-09-25 08:30:00',
-        action: 'Claim Rejected',
-        note: 'Code mismatch. Reason sent to customer.',
-        performedBy: 'Executive Admin'
-      }
-    ]
-  }
-];
+export const INITIAL_CLAIMS: WmsClaim[] = [];
 
 export const storage = {
   getDeletedProductIds(): string[] {
@@ -333,12 +191,20 @@ export const storage = {
     try {
       const data = localStorage.getItem(STORAGE_KEY_CLAIMS);
       if (data !== null) {
-        return JSON.parse(data);
+        const parsed: WmsClaim[] = JSON.parse(data);
+        if (Array.isArray(parsed)) {
+          // Remove old pre-seeded demo claims so bar starts empty and reflects only actual claims
+          const clean = parsed.filter((c) => c && c.id && !c.id.startsWith('CLM-2026-880'));
+          if (clean.length !== parsed.length) {
+            localStorage.setItem(STORAGE_KEY_CLAIMS, JSON.stringify(clean));
+          }
+          return clean;
+        }
       }
     } catch {
       // fallback
     }
-    // Seed initial
+    // Seed initial (empty)
     localStorage.setItem(STORAGE_KEY_CLAIMS, JSON.stringify(INITIAL_CLAIMS));
     return INITIAL_CLAIMS;
   },
