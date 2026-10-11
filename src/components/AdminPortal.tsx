@@ -761,7 +761,10 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                         <span className="font-mono text-slate-900">{stats.totalClaims}</span>
                       </div>
                       <div className="w-full h-3 rounded-full bg-slate-100 overflow-hidden">
-                        <div className="h-full bg-indigo-600 rounded-full w-full"></div>
+                        <div
+                          className="h-full bg-indigo-600 rounded-full transition-all duration-500"
+                          style={{ width: '0%' }}
+                        ></div>
                       </div>
                     </div>
 
