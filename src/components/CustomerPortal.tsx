@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import { WmsProduct, WmsClaim, ThemeConfig } from '../types/wms';
 import { CustomerClaimModal } from './CustomerClaimModal';
+import { PWAInstallButton } from './PWAInstallButton';
 
 export interface CustomerPortalProps {
   products: WmsProduct[];
@@ -174,6 +175,9 @@ export const CustomerPortal: React.FC<CustomerPortalProps> = ({
 
           {/* Desktop User Session & Actions */}
           <div className="hidden sm:flex items-center gap-2 sm:gap-3">
+            {/* Install Desktop / Mobile App Button */}
+            <PWAInstallButton language={language} variant="nav" />
+
             {/* Language Switch */}
             <div className="flex items-center bg-slate-100 p-0.5 rounded-xl border border-slate-200 text-xs">
               <button
@@ -371,6 +375,11 @@ export const CustomerPortal: React.FC<CustomerPortalProps> = ({
                     <span>{language === 'bn' ? 'লগইন বা সাইন আপ করুন' : 'Login / Sign Up'}</span>
                   </button>
                 )}
+              </div>
+
+              {/* Install Mobile / Computer App in Drawer */}
+              <div className="px-4 pb-2">
+                <PWAInstallButton language={language} variant="full" className="w-full justify-center py-2.5" />
               </div>
 
               {/* Navigation Links & Categories */}

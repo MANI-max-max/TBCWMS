@@ -52,6 +52,7 @@ import { RejectionModal } from './RejectionModal';
 import { ClaimDetailDrawer } from './ClaimDetailDrawer';
 import { ThemeModal } from './ThemeModal';
 import { ConfirmModal } from './ConfirmModal';
+import { PWAInstallButton } from './PWAInstallButton';
 
 export type AdminNavSection = 'overview' | 'verification' | 'payouts' | 'products';
 
@@ -217,6 +218,13 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
       .filter((c) => c.status === 'Pending' || c.status === 'Approved')
       .reduce((acc, c) => acc + c.cashbackAmount, 0);
 
+    const totalProductSlots = products.reduce((acc, p) => acc + (p.totalSlots || 0), 0);
+    const totalProductClaimedSlots = products.reduce((acc, p) => acc + (p.claimedSlots || 0), 0);
+    // Dynamic claim fill rate: reflects actual customer claims submitted against total campaign slots
+    const claimFillRate = totalProductSlots > 0
+      ? Math.min(100, Math.round((totalClaims / totalProductSlots) * 100))
+      : (totalClaims > 0 ? 100 : 0);
+
     return {
       totalClaims,
       pendingCount,
@@ -224,9 +232,12 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
       paidCount,
       rejectedCount,
       totalCashbackPaid,
-      totalCashbackCommitted
+      totalCashbackCommitted,
+      totalProductSlots,
+      totalProductClaimedSlots,
+      claimFillRate
     };
-  }, [claims]);
+  }, [claims, products]);
 
   // Platform Distribution
   const platformStats = useMemo(() => {
@@ -499,6 +510,8 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
 
         {/* Sidebar Footer */}
         <div className="p-4 border-t border-slate-100 space-y-3">
+          <PWAInstallButton language={language} variant="nav" className="w-full justify-center py-2" />
+
           {/* Switch to Customer Portal Button */}
           <button
             onClick={onSwitchToCustomer}
@@ -602,6 +615,8 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
 
           {/* Quick Header Actions */}
           <div className="flex items-center gap-2">
+            <PWAInstallButton language={language} variant="nav" />
+
             <button
               onClick={() => {
                 setProductToEdit(null);
@@ -757,13 +772,17 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                   <div className="space-y-4 pt-2">
                     <div>
                       <div className="flex justify-between text-xs font-semibold mb-1">
-                        <span className="text-slate-700">1. Proof Submitted (Total Claims)</span>
-                        <span className="font-mono text-slate-900">{stats.totalClaims}</span>
+                        <span className="text-slate-700">
+                          {language === 'bn' ? '১. সাবমিট করা প্রুফ (মোট ক্লেইম)' : '1. Proof Submitted (Total Claims)'}
+                        </span>
+                        <span className="font-mono text-slate-900">
+                          {stats.totalClaims} {stats.totalProductSlots > 0 ? `(${stats.claimFillRate}%)` : ''}
+                        </span>
                       </div>
                       <div className="w-full h-3 rounded-full bg-slate-100 overflow-hidden">
                         <div
                           className="h-full bg-indigo-600 rounded-full transition-all duration-500"
-                          style={{ width: '0%' }}
+                          style={{ width: `${stats.claimFillRate}%` }}
                         ></div>
                       </div>
                     </div>

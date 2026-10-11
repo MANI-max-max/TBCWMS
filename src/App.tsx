@@ -14,6 +14,7 @@ import { LoginModal } from './components/LoginModal';
 import { AdminLoginModal } from './components/AdminLoginModal';
 import { AdminPortal } from './components/AdminPortal';
 import { CustomerPortal } from './components/CustomerPortal';
+import { OfflineIndicator } from './components/OfflineIndicator';
 
 export type PortalMode = 'admin' | 'customer';
 
@@ -380,6 +381,9 @@ export default function App() {
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-500 selection:text-white">
       {/* Toast Notification Container */}
       <ToastContainer toasts={toasts} onDismiss={dismissToast} />
+
+      {/* Offline Mode Indicator for PWA */}
+      <OfflineIndicator />
 
       {/* Proof Lightbox Modal */}
       <ProofLightbox

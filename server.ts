@@ -278,6 +278,9 @@ async function startServer() {
     next();
   });
 
+  // Serve static assets from public/ (favicons, icons, PWA manifest)
+  app.use(express.static(path.resolve(__dirname, 'public')));
+
   // Server-Sent Events stream for cross-device live synchronization with keep-alive
   app.get('/api/events', (req: Request, res: Response) => {
     res.writeHead(200, {
